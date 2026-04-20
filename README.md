@@ -44,6 +44,17 @@ Build your own automatic differentiation engine and neural network library, unde
 - Exercise 3: Implement validation loop  
 **What You'll Learn:** How to use PyTorch for real-world deep learning tasks
 
+### Lab 5: Transfer Learning - Cats vs Dogs
+**Focus:** Modern deep learning with pre-trained models  
+**Concepts:** Transfer learning, feature extraction, data augmentation, evaluation metrics  
+**Dataset:** Kaggle Dogs vs Cats (25,000 images)  
+**Exercises:**
+- Exercise 1: Build model with pre-trained ResNet18 + custom head
+- Exercise 2: Implement training loop with BCEWithLogitsLoss
+- Exercise 3: Implement validation with precision/recall/F1
+- Exercise 4: Analyze predictions and confidence scores  
+**What You'll Learn:** How to leverage pre-trained models for new tasks with limited data
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -82,6 +93,7 @@ Open each lab notebook in order:
 2. `lab2_computation_graph.ipynb` - Computation graphs + gradients + NumPy
 3. `lab3_neural_networks.ipynb` - Build and train MLP from scratch
 4. `lab4_pytorch_mnist.ipynb` - PyTorch on real data (MNIST)
+5. `lab5_transfer_learning.ipynb` - Transfer learning (Cats vs Dogs)
 
 Each notebook contains:
 - ✅ Clear introduction and concepts
@@ -130,6 +142,7 @@ By the end of this course, you'll have:
 3. ✅ Complete neural network from scratch (Neuron, Layer, MLP)
 4. ✅ Trained model on 2D moon dataset (micrograd demo)
 5. ✅ PyTorch MLP trained on MNIST with >95% accuracy
+6. ✅ Transfer learning model on Kaggle Cats vs Dogs with >90% accuracy
 
 ## 🎯 Next Steps
 
