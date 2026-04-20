@@ -1,0 +1,238 @@
+<style>
+#conv-container * { box-sizing: border-box; margin: 0; padding: 0; }
+#conv-container { padding: 1rem 0; font-family: sans-serif; font-size: 13px; color: #1a1a1a; }
+#conv-container h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+#conv-container .subtitle { font-size: 13px; color: #666; margin-bottom: 20px; }
+#conv-container .row { display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap; justify-content: center; }
+#conv-container .section-label { font-size: 11px; font-weight: 500; color: #666; text-align: center; margin-bottom: 6px; letter-spacing: .04em; text-transform: uppercase; }
+#conv-container .grid-wrap { display: inline-block; }
+#conv-container .grid { display: grid; gap: 3px; }
+#conv-container .cell {
+  width: 44px; height: 44px; border-radius: 6px; border: 0.5px solid #ccc;
+  display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500;
+  color: #1a1a1a; background: #fff; transition: background .2s, border-color .2s, color .2s;
+}
+#conv-container .cell.hi-input { background: #E6F1FB; border-color: #185FA5; color: #0C447C; }
+#conv-container .cell.hi-kernel { background: #EEEDFE; border-color: #534AB7; color: #3C3489; }
+#conv-container .cell.hi-out { background: #FAEEDA; border-color: #854F0B; color: #633806; }
+#conv-container .cell.done { background: #f7f7f5; color: #888; }
+#conv-container .cell.active-out { background: #FAEEDA; border-color: #854F0B; color: #633806; }
+#conv-container .op-area {
+  margin-top: 16px; padding: 14px 16px; border-radius: 10px; border: 0.5px solid #ddd;
+  background: #f7f7f5; font-size: 13px; line-height: 1.8; min-height: 72px;
+}
+#conv-container .term-r { color: #185FA5; font-weight: 500; }
+#conv-container .term-p { color: #534AB7; font-weight: 500; }
+#conv-container .term-o { color: #854F0B; font-weight: 500; }
+#conv-container .sym { color: #888; }
+#conv-container .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; align-items: center; }
+#conv-container .ctrl-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666; }
+#conv-container select {
+  font-size: 12px; padding: 4px 8px; border-radius: 6px; border: 0.5px solid #ccc;
+  background: #fff; color: #1a1a1a;
+}
+#conv-container .btn {
+  padding: 5px 14px; border-radius: 6px; border: 0.5px solid #ccc; background: transparent;
+  color: #1a1a1a; font-size: 12px; cursor: pointer;
+}
+#conv-container .btn:hover { background: #f0f0ee; }
+#conv-container .btn.primary { border-color: #185FA5; color: #185FA5; }
+#conv-container .btn.primary:hover { background: #E6F1FB; }
+#conv-container .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+#conv-container .step-row { display: flex; gap: 8px; margin-top: 14px; align-items: center; }
+#conv-container .prog { flex: 1; height: 4px; border-radius: 2px; background: #ddd; overflow: hidden; }
+#conv-container .prog-bar { height: 100%; background: #185FA5; border-radius: 2px; transition: width .3s; }
+#conv-container .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 11px; color: #666; }
+#conv-container .leg { display: flex; align-items: center; gap: 5px; }
+#conv-container .leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+</style>
+
+<div id="conv-container">
+  <h1>2D Convolution — How CNNs "See" Images</h1>
+  <p class="subtitle">Step through the sliding kernel to see how each output value is computed.</p>
+
+  <div class="row">
+    <div class="grid-wrap">
+      <div class="section-label">Input (5×5)</div>
+      <div class="grid" style="grid-template-columns:repeat(5,44px)" id="conv-gridInput"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:28px;gap:6px">
+      <div style="font-size:18px;color:#888">*</div>
+      <div style="font-size:10px;color:#aaa">convolve</div>
+    </div>
+    <div class="grid-wrap">
+      <div class="section-label">Kernel (3×3)</div>
+      <div class="grid" style="grid-template-columns:repeat(3,44px)" id="conv-gridKernel"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:28px;gap:6px">
+      <div style="font-size:18px;color:#888">=</div>
+    </div>
+    <div class="grid-wrap">
+      <div class="section-label">Feature map (3×3)</div>
+      <div class="grid" style="grid-template-columns:repeat(3,44px)" id="conv-gridOutput"></div>
+    </div>
+  </div>
+
+  <div class="op-area" id="conv-opArea">
+    <span style="color:#888">Press <b>Step</b> to slide the kernel and compute one output cell at a time.</span>
+  </div>
+
+  <div class="step-row">
+    <button class="btn" onclick="convReset()">↺ Reset</button>
+    <button class="btn primary" onclick="convStepFwd()" id="conv-btnStep">Step →</button>
+    <div class="prog"><div class="prog-bar" id="conv-progBar" style="width:0%"></div></div>
+    <span style="font-size:11px;color:#666;min-width:40px;text-align:right" id="conv-stepLabel">0 / 9</span>
+  </div>
+
+  <div class="controls">
+    <div class="ctrl-group">
+      <span>Kernel preset:</span>
+      <select id="conv-kernelSelect" onchange="convApplyPreset()">
+        <option value="edge">Edge detector</option>
+        <option value="blur">Blur (average)</option>
+        <option value="sharpen">Sharpen</option>
+        <option value="identity">Identity</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#E6F1FB;border:1px solid #185FA5"></div> Input patch (active)</div>
+    <div class="leg"><div class="leg-dot" style="background:#EEEDFE;border:1px solid #534AB7"></div> Kernel weights</div>
+    <div class="leg"><div class="leg-dot" style="background:#FAEEDA;border:1px solid #854F0B"></div> Output value</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const INPUT = [
+    [1,2,3,0,1],
+    [0,1,2,3,1],
+    [2,1,0,1,2],
+    [1,3,2,1,0],
+    [0,1,1,2,3]
+  ];
+
+  const PRESETS = {
+    edge:     [[-1,-1,-1],[-1,8,-1],[-1,-1,-1]],
+    blur:     [[1,1,1],[1,1,1],[1,1,1]],
+    sharpen:  [[0,-1,0],[-1,5,-1],[0,-1,0]],
+    identity: [[0,0,0],[0,1,0],[0,0,0]]
+  };
+
+  let kernel = PRESETS.edge.map(r=>[...r]);
+  let step = 0;
+  const TOTAL = 9;
+
+  function getPos(s){ return [Math.floor(s/3), s%3]; }
+
+  function computeOutput(ri, ci){
+    let sum = 0;
+    for(let kr=0;kr<3;kr++) for(let kc=0;kc<3;kc++) sum += INPUT[ri+kr][ci+kc]*kernel[kr][kc];
+    return sum;
+  }
+
+  function allOutputs(){
+    const O=[];
+    for(let r=0;r<3;r++){O.push([]); for(let c=0;c<3;c++) O[r].push(computeOutput(r,c));}
+    return O;
+  }
+
+  function renderInput(hiR, hiC){
+    const el=document.getElementById('conv-gridInput');
+    if (!el) return;
+    el.innerHTML='';
+    for(let r=0;r<5;r++) for(let c=0;c<5;c++){
+      const d=document.createElement('div');
+      d.className='cell';
+      d.textContent=INPUT[r][c];
+      if(hiR!==null && r>=hiR && r<hiR+3 && c>=hiC && c<hiC+3) d.classList.add('hi-input');
+      el.appendChild(d);
+    }
+  }
+
+  function renderKernel(highlight){
+    const el=document.getElementById('conv-gridKernel');
+    if (!el) return;
+    el.innerHTML='';
+    for(let r=0;r<3;r++) for(let c=0;c<3;c++){
+      const d=document.createElement('div');
+      d.className='cell';
+      d.textContent=kernel[r][c];
+      if(highlight) d.classList.add('hi-kernel');
+      el.appendChild(d);
+    }
+  }
+
+  function renderOutput(upTo, activeR, activeC){
+    const el=document.getElementById('conv-gridOutput');
+    if (!el) return;
+    el.innerHTML='';
+    const O=allOutputs();
+    for(let r=0;r<3;r++) for(let c=0;c<3;c++){
+      const d=document.createElement('div');
+      d.className='cell';
+      const idx=r*3+c;
+      if(idx<upTo){ d.textContent=O[r][c]; d.classList.add('done'); }
+      else if(r===activeR && c===activeC){ d.textContent=O[r][c]; d.classList.add('active-out'); }
+      else{ d.textContent='?'; }
+      el.appendChild(d);
+    }
+  }
+
+  function buildOpHTML(ri, ci){
+    const pairs=[];
+    for(let kr=0;kr<3;kr++) for(let kc=0;kc<3;kc++){
+      const iv=INPUT[ri+kr][ci+kc], kv=kernel[kr][kc];
+      pairs.push(`<span class="term-r">${iv}</span><span class="sym">×</span><span class="term-p">${kv}</span>`);
+    }
+    const sum=computeOutput(ri,ci);
+    const nums=[];
+    for(let kr=0;kr<3;kr++) for(let kc=0;kc<3;kc++) nums.push(INPUT[ri+kr][ci+kc]*kernel[kr][kc]);
+    return `
+      <div><b>Output[${ri}][${ci}]</b> — element-wise multiply patch × kernel, then sum</div>
+      <div style="margin-top:6px;line-height:2">${pairs.join('<span class="sym"> + </span>')}</div>
+      <div style="margin-top:6px">= <span style="color:#888">${nums.join(' + ')}</span> = <span class="term-o" style="font-size:15px">${sum}</span></div>`;
+  }
+
+  function render(){
+    if(step===0){
+      renderInput(null,null);
+      renderKernel(false);
+      renderOutput(-1,null,null);
+      const opArea = document.getElementById('conv-opArea');
+      if (opArea) opArea.innerHTML='<span style="color:#888">Press <b>Step</b> to slide the kernel and compute one output cell at a time.</span>';
+    } else {
+      const [ri,ci]=getPos(step-1);
+      renderInput(ri,ci);
+      renderKernel(true);
+      renderOutput(step-1,ri,ci);
+      const opArea = document.getElementById('conv-opArea');
+      if (opArea) opArea.innerHTML=buildOpHTML(ri,ci);
+    }
+    const pct=Math.round(step/TOTAL*100);
+    const progBar = document.getElementById('conv-progBar');
+    if (progBar) progBar.style.width=pct+'%';
+    const stepLabel = document.getElementById('conv-stepLabel');
+    if (stepLabel) stepLabel.textContent=step+' / '+TOTAL;
+    const btnStep = document.getElementById('conv-btnStep');
+    if (btnStep) {
+      btnStep.disabled=(step>=TOTAL);
+      btnStep.textContent=step>=TOTAL ? 'Done!' : 'Step →';
+    }
+  }
+
+  window.convStepFwd = function(){ if(step<TOTAL){step++; render();} };
+  window.convReset = function(){ step=0; render(); };
+
+  window.convApplyPreset = function(){
+    const sel = document.getElementById('conv-kernelSelect');
+    if (!sel) return;
+    const v=sel.value;
+    kernel=PRESETS[v].map(r=>[...r]);
+    step=0; render();
+  };
+
+  render();
+})();
+</script>
