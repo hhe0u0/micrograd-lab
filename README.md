@@ -8,25 +8,41 @@ Build your own automatic differentiation engine and neural network library, unde
 
 ## 📚 Lab Structure
 
-### Lab 1: Python Magic Methods
-**Concepts:** Operator overloading, custom classes, magic methods
-**Exercise:** Implement Matrix class with addition and multiplication
+### Lab 1: Numeric Computation in Python
+**Focus:** Understanding how NumPy works by building arrays from scratch  
+**Concepts:** Magic methods, operator overloading, matrix multiplication  
+**Exercise:** Implement Array class with element-wise and matrix operations (NO NumPy allowed)  
+**What You'll Learn:** How libraries like NumPy implement numeric operations internally
 
-### Lab 2: The Value Object & Forward Pass
-**Concepts:** Computation graphs, forward propagation, tracking operations
-**Exercise:** Build the Value class that records data and parent relationships
+### Lab 2: Computation Graphs and Forward Propagation
+**Focus:** Build Value class, understand gradients, learn NumPy  
+**Concepts:** Computation graphs, automatic differentiation, gradient calculation  
+**Exercises:**
+- Exercise 1: Implement Value class that tracks operations
+- Exercise 2: Matrix multiplication with NumPy
+- Exercise 3: 2D linear regression with gradient calculation  
+**What You'll Learn:** Foundation of autograd, now allowed to use NumPy!
 
-### Lab 3: Manual Backpropagation with Chain Rule
-**Concepts:** Chain rule, gradients, sensitivity analysis
-**Exercise:** Manually compute gradients for nested expressions
+### Lab 3: Building and Training Neural Networks
+**Focus:** Complete neural network with training (combines original Lab 3 & 4)  
+**Concepts:** Neuron, Layer, MLP architecture, loss functions, training loops  
+**Given:** Complete Value class with autograd from micrograd  
+**Exercises:**
+- Exercise 1: Implement Neuron, Layer, MLP classes (especially `__call__` methods)
+- Exercise 2: Implement loss function with L2 regularization
+- Exercise 3: Implement training loop  
+**Dataset:** 2D moon classification (from Karpathy's demo.ipynb)  
+**What You'll Learn:** How to build and train neural networks from scratch
 
-### Lab 4: Automatic Backpropagation Engine
-**Concepts:** Topological sort, _backward closures, gradient accumulation
-**Exercise:** Implement automatic differentiation (autograd)
-
-### Lab 5: Training a Neural Network
-**Concepts:** Training loop, MSE loss, gradient descent, learning rate
-**Exercise:** Train a 2-layer MLP on concentric rings dataset
+### Lab 4: Deep Learning with PyTorch
+**Focus:** Production deep learning on real data  
+**Concepts:** PyTorch tensors, nn.Module, optimizers, validation  
+**Dataset:** MNIST handwritten digits (sklearn version)  
+**Exercises:**
+- Exercise 1: Build 2-layer MLP using PyTorch
+- Exercise 2: Implement training loop with Adam optimizer
+- Exercise 3: Implement validation loop  
+**What You'll Learn:** How to use PyTorch for real-world deep learning tasks
 
 ## 🚀 Getting Started
 
@@ -62,11 +78,10 @@ Simply open any notebook in Colab and start learning!
 ### Running Labs
 
 Open each lab notebook in order:
-1. `lab1_magic_methods.ipynb`
-2. `lab2_value_forward.ipynb`
-3. `lab3_chain_rule.ipynb`
-4. `lab4_auto_backprop.ipynb`
-5. `lab5_mlp_training.ipynb`
+1. `lab1_numeric_computation.ipynb` - Understand NumPy internals
+2. `lab2_computation_graph.ipynb` - Computation graphs + gradients + NumPy
+3. `lab3_neural_networks.ipynb` - Build and train MLP from scratch
+4. `lab4_pytorch_mnist.ipynb` - PyTorch on real data (MNIST)
 
 Each notebook contains:
 - ✅ Clear introduction and concepts
@@ -80,16 +95,15 @@ Each notebook contains:
 
 ```
 micrograd-lab/
-├── README.md                      # This file
-├── REFERENCES.md                  # Attribution to Karpathy's micrograd
-├── lab1_magic_methods.ipynb      # Lab 1 notebook
-├── lab2_value_forward.ipynb      # Lab 2 notebook
-├── lab3_chain_rule.ipynb         # Lab 3 notebook
-├── lab4_auto_backprop.ipynb      # Lab 4 notebook
-├── lab5_mlp_training.ipynb       # Lab 5 notebook
-├── engine.py                      # Complete Value class (reference)
-├── nn.py                          # Neural network layers (reference)
-└── utils.py                       # Helper functions (topological sort, visualization)
+├── README.md                        # This file
+├── REFERENCES.md                    # Attribution to Karpathy's micrograd
+├── lab1_numeric_computation.ipynb  # Lab 1: Pure Python arrays
+├── lab2_computation_graph.ipynb    # Lab 2: Value class + gradients
+├── lab3_neural_networks.ipynb      # Lab 3: Build and train MLP
+├── lab4_pytorch_mnist.ipynb        # Lab 4: PyTorch + MNIST
+├── engine.py                        # Complete Value class (reference)
+├── nn.py                            # Neural network layers (reference)
+└── utils.py                         # Helper functions (topological sort, visualization)
 ```
 
 ## 🎓 Learning Philosophy
@@ -111,10 +125,11 @@ Reference implementations are provided in:
 ## 📊 What You'll Build
 
 By the end of this course, you'll have:
-1. ✅ A working autograd engine (automatic differentiation)
-2. ✅ Neural network layers (neurons, layers, MLP)
-3. ✅ Training loop implementation
-4. ✅ A trained model that classifies 2D data
+1. ✅ Custom numeric computation library (understand NumPy internals)
+2. ✅ Computation graph system (understand autograd)
+3. ✅ Complete neural network from scratch (Neuron, Layer, MLP)
+4. ✅ Trained model on 2D moon dataset (micrograd demo)
+5. ✅ PyTorch MLP trained on MNIST with >95% accuracy
 
 ## 🎯 Next Steps
 
