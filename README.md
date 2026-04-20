@@ -2,6 +2,18 @@
 
 A hands-on Jupyter notebook series that teaches you how to build a neural network from scratch, step by step.
 
+## ⚡ Quick Start
+
+**Want to start immediately?** Click any lab to open in Google Colab:
+
+1. [Lab 1: Numeric Computation](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab1_numeric_computation.ipynb) - Pure Python arrays
+2. [Lab 2: Computation Graphs](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab2_computation_graph.ipynb) - Autograd + gradients
+3. [Lab 3: Neural Networks](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab3_neural_networks.ipynb) - Build MLP
+4. [Lab 4: PyTorch](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab4_pytorch_mnist.ipynb) - MNIST classifier
+5. [Lab 5: Transfer Learning](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb) - Cats vs Dogs (needs Kaggle account)
+
+**No installation, no setup - just click and learn!** 🚀
+
 ## 🎯 What You'll Learn
 
 Build your own automatic differentiation engine and neural network library, understanding the core principles behind modern deep learning frameworks like PyTorch and TensorFlow.
@@ -57,11 +69,28 @@ Build your own automatic differentiation engine and neural network library, unde
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Python 3.8+
-- Jupyter Notebook
+### Option 1: Google Colab (Recommended - Zero Setup!)
 
-### Local Setup
+**Open directly in Colab using these links:**
+
+- 🔗 [**Lab 1: Numeric Computation**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab1_numeric_computation.ipynb)
+- 🔗 [**Lab 2: Computation Graphs**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab2_computation_graph.ipynb)
+- 🔗 [**Lab 3: Neural Networks**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab3_neural_networks.ipynb)
+- 🔗 [**Lab 4: PyTorch + MNIST**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab4_pytorch_mnist.ipynb)
+- 🔗 [**Lab 5: Transfer Learning**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb) ⚠️ *Requires Kaggle account*
+
+**What you get with Colab:**
+- ✅ All packages pre-installed (PyTorch, NumPy, matplotlib, graphviz)
+- ✅ Free T4 GPU (for Labs 4 & 5)
+- ✅ Helper files auto-download from GitHub
+- ✅ No installation needed!
+
+**Lab 5 Requirement:**
+- 📋 Free Kaggle account needed to download Cats vs Dogs dataset
+- Setup instructions provided in notebook (takes 2-3 minutes)
+- Create account at: https://kaggle.com
+
+### Option 2: Local Jupyter Setup
 
 ```bash
 # Install Jupyter if not already installed
@@ -77,23 +106,10 @@ pip install graphviz
 jupyter notebook
 ```
 
-### Google Colab Setup
-
-**No installation needed!** Google Colab has all required packages pre-installed:
-- ✅ graphviz (for computation graph visualization)
-- ✅ matplotlib (for plotting)
-- ✅ numpy, pandas (for data manipulation)
-
-Simply open any notebook in Colab and start learning!
-
-### Running Labs
-
-Open each lab notebook in order:
-1. `lab1_numeric_computation.ipynb` - Understand NumPy internals
-2. `lab2_computation_graph.ipynb` - Computation graphs + gradients + NumPy
-3. `lab3_neural_networks.ipynb` - Build and train MLP from scratch
-4. `lab4_pytorch_mnist.ipynb` - PyTorch on real data (MNIST)
-5. `lab5_transfer_learning.ipynb` - Transfer learning (Cats vs Dogs)
+**Local setup includes:**
+- Helper files (engine.py, nn.py, utils.py) already present
+- No need to download from GitHub
+- For Lab 5: Still need Kaggle account for dataset
 
 Each notebook contains:
 - ✅ Clear introduction and concepts
