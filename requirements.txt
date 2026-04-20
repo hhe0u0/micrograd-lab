@@ -1,2 +1,9 @@
+# Local setup dependencies
+# Note: Google Colab has all these packages pre-installed - no installation needed!
+#
+# For local Jupyter setup, install:
+#   pip install graphviz
+#
+# graphviz is used for computation graph visualization in Lab 2, 3, 4, 5
+
 graphviz>=0.20.0
-matplotlib>=3.5.0

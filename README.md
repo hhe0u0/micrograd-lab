@@ -10,7 +10,6 @@ Build your own automatic differentiation engine and neural network library, unde
 
 ### Lab 1: Python Magic Methods
 **Concepts:** Operator overloading, custom classes, magic methods
-**Demo:** Chinese family relation calculator (Mother() + Sister(younger=True) = 小姨)
 **Exercise:** Implement Matrix class with addition and multiplication
 
 ### Lab 2: The Value Object & Forward Pass
@@ -35,7 +34,7 @@ Build your own automatic differentiation engine and neural network library, unde
 - Python 3.8+
 - Jupyter Notebook
 
-### Installation
+### Local Setup
 
 ```bash
 # Install Jupyter if not already installed
@@ -44,12 +43,21 @@ pip install notebook
 # Clone or download this repository
 cd micrograd-lab
 
-# Install dependencies
-pip install -r requirements.txt
+# Install graphviz for computation graph visualization
+pip install graphviz
 
 # Start Jupyter
 jupyter notebook
 ```
+
+### Google Colab Setup
+
+**No installation needed!** Google Colab has all required packages pre-installed:
+- ✅ graphviz (for computation graph visualization)
+- ✅ matplotlib (for plotting)
+- ✅ numpy, pandas (for data manipulation)
+
+Simply open any notebook in Colab and start learning!
 
 ### Running Labs
 
@@ -73,7 +81,7 @@ Each notebook contains:
 ```
 micrograd-lab/
 ├── README.md                      # This file
-├── requirements.txt               # Python dependencies
+├── REFERENCES.md                  # Attribution to Karpathy's micrograd
 ├── lab1_magic_methods.ipynb      # Lab 1 notebook
 ├── lab2_value_forward.ipynb      # Lab 2 notebook
 ├── lab3_chain_rule.ipynb         # Lab 3 notebook
@@ -81,8 +89,7 @@ micrograd-lab/
 ├── lab5_mlp_training.ipynb       # Lab 5 notebook
 ├── engine.py                      # Complete Value class (reference)
 ├── nn.py                          # Neural network layers (reference)
-├── utils.py                       # Helper functions (topological sort, visualization)
-└── family_relations.py            # Chinese family relation calculator demo
+└── utils.py                       # Helper functions (topological sort, visualization)
 ```
 
 ## 🎓 Learning Philosophy
@@ -91,7 +98,7 @@ micrograd-lab/
 - **Learn by doing**: Every concept has hands-on exercises
 - **Test-driven**: Validate your understanding with comprehensive tests
 - **Real implementations**: You'll write actual working code, not pseudocode
-- **Cultural relevance**: Uses engaging examples like Chinese family relations
+- **Visual feedback**: Computation graph visualization for immediate validation
 
 ## 🛠️ Complete Solutions
 
@@ -131,7 +138,7 @@ This lab extends micrograd's concepts into a structured workshop format with:
 - Progressive 5-lab curriculum
 - Hands-on exercises with starter code
 - Validation tests for immediate feedback
-- Cultural examples and edge cases
+- Computation graph visualization using trace_graph from micrograd
 - Complete reference implementations
 
 **Micrograd License:** MIT License (Copyright (c) 2020 Andrej Karpathy)
