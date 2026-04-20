@@ -67,6 +67,16 @@ Build your own automatic differentiation engine and neural network library, unde
 - Exercise 4: Analyze predictions and confidence scores  
 **What You'll Learn:** How to leverage pre-trained models for new tasks with limited data
 
+### Lab 5.1: Training on TPU (Bonus)
+**Focus:** Using Google Cloud TPU for faster training  
+**Concepts:** TPU vs GPU, PyTorch XLA, large batch training  
+**Dataset:** Same Cats vs Dogs from Lab 5  
+**Exercises:**
+- Exercise 1: Adapt model for TPU
+- Exercise 2: Implement TPU training loop with XLA
+- Exercise 3: Validate on TPU  
+**What You'll Learn:** How to use TPU for production-scale training, when TPU beats GPU
+
 ## 🚀 Getting Started
 
 ### Option 1: Google Colab (Recommended - Zero Setup!)
@@ -78,6 +88,7 @@ Build your own automatic differentiation engine and neural network library, unde
 - 🔗 [**Lab 3: Neural Networks**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab3_neural_networks.ipynb)
 - 🔗 [**Lab 4: PyTorch + MNIST**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab4_pytorch_mnist.ipynb)
 - 🔗 [**Lab 5: Transfer Learning**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb) ⚠️ *Requires Kaggle account*
+- 🔗 [**Lab 5.1: TPU Training (Bonus)**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5.1_tpu_training.ipynb) 🚀 *Requires Kaggle account + TPU runtime*
 
 **What you get with Colab:**
 - ✅ All packages pre-installed (PyTorch, NumPy, matplotlib, graphviz)
@@ -159,6 +170,7 @@ By the end of this course, you'll have:
 4. ✅ Trained model on 2D moon dataset (micrograd demo)
 5. ✅ PyTorch MLP trained on MNIST with >95% accuracy
 6. ✅ Transfer learning model on Kaggle Cats vs Dogs with >90% accuracy
+7. ✅ **Bonus:** Same model trained on Google Cloud TPU (Lab 5.1)
 
 ## 🎯 Next Steps
 
