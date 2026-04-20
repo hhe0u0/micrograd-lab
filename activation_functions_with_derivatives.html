@@ -1,0 +1,346 @@
+<style>
+#activation-container * { box-sizing: border-box; margin: 0; padding: 0; }
+#activation-container { padding: 1rem 0; font-family: sans-serif; color: #1a1a1a; }
+#activation-container h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+#activation-container .subtitle { font-size: 13px; color: #666; margin-bottom: 20px; }
+#activation-container .tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+#activation-container .tab {
+  padding: 6px 14px; border-radius: 20px; border: 0.5px solid #ccc; background: transparent;
+  color: #666; font-size: 12px; cursor: pointer; transition: all .15s;
+}
+#activation-container .tab:hover { background: #f0f0ee; }
+#activation-container .tab.active { font-weight: 500; }
+#activation-container .main { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+#activation-container .charts { flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 8px; }
+#activation-container .chart-label {
+  font-size: 11px; font-weight: 500; color: #666; text-transform: uppercase;
+  letter-spacing: .04em; margin-bottom: 4px;
+}
+#activation-container canvas {
+  width: 100%; border-radius: 10px; border: 0.5px solid #ddd; display: block;
+}
+#activation-container .info-card {
+  width: 220px; flex-shrink: 0; border: 0.5px solid #ddd; border-radius: 10px;
+  padding: 14px; background: #f7f7f5;
+}
+#activation-container .fn-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+#activation-container .fn-formula {
+  font-family: monospace; font-size: 11px; color: #666; margin-bottom: 8px;
+  padding: 6px 8px; background: #fff; border-radius: 6px; border: 0.5px solid #ddd; line-height: 1.6;
+}
+#activation-container .prop { margin-bottom: 8px; }
+#activation-container .prop-label {
+  font-size: 11px; font-weight: 500; color: #666; text-transform: uppercase;
+  letter-spacing: .04em; margin-bottom: 2px;
+}
+#activation-container .prop-val { font-size: 12px; color: #1a1a1a; line-height: 1.5; }
+#activation-container .badge {
+  display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin: 2px 2px 0 0;
+}
+#activation-container .badge.green { background: #EAF3DE; color: #27500A; border: 0.5px solid #3B6D11; }
+#activation-container .badge.amber { background: #FAEEDA; color: #633806; border: 0.5px solid #854F0B; }
+#activation-container .probe-row {
+  display: flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 12px;
+  color: #666; flex-wrap: wrap;
+}
+#activation-container .probe-row input { flex: 1; min-width: 80px; }
+#activation-container .probe-vals { display: flex; gap: 10px; margin-top: 6px; font-size: 12px; }
+#activation-container .probe-val { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+#activation-container .probe-val span:first-child { font-size: 10px; color: #666; }
+#activation-container .compare-toggle {
+  margin-top: 10px; display: flex; align-items: center; gap: 8px; font-size: 12px;
+  color: #666; cursor: pointer;
+}
+#activation-container .divider { border: none; border-top: 0.5px solid #ddd; margin: 10px 0; }
+</style>
+
+<div id="activation-container">
+  <h1>Activation Functions & Derivatives</h1>
+  <p class="subtitle">Explore how different activation functions shape gradients in neural networks.</p>
+
+  <div class="tabs" id="activation-tabs"></div>
+  <div class="main">
+    <div class="charts">
+      <div>
+        <div class="chart-label">f(x) — activation</div>
+        <canvas id="activation-chartFn" height="200"></canvas>
+      </div>
+      <div>
+        <div class="chart-label">f′(x) — derivative (gradient flow)</div>
+        <canvas id="activation-chartDeriv" height="200"></canvas>
+      </div>
+      <label class="compare-toggle">
+        <input type="checkbox" id="activation-compareAll" onchange="activationRender()">
+        <span>Overlay all functions</span>
+      </label>
+    </div>
+    <div class="info-card" id="activation-infoCard"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const FNS = [
+    {
+      id:'relu', name:'ReLU', color:'#185FA5',
+      formula:'f(x) = max(0, x)',
+      dformula:"f'(x) = 0 if x < 0\n         1 if x > 0",
+      fn:  x => Math.max(0, x),
+      dfn: x => x > 0 ? 1 : 0,
+      drange:'0 or 1',
+      dNote:'Gradient is 1 for positive inputs, 0 otherwise. Dead neurons (x<0) send zero gradient — weights never update.',
+      pros:['Fast to compute','No vanishing gradient (x>0)'],
+      cons:['Dying ReLU: zero gradient for x<0'],
+      usedIn:'CNNs, ResNets',
+      note:'Default choice for hidden layers.'
+    },
+    {
+      id:'gelu', name:'GELU', color:'#534AB7',
+      formula:'f(x) = x · Φ(x)',
+      dformula:"f'(x) = Φ(x) + x · φ(x)\n(Φ = CDF, φ = PDF of N(0,1))",
+      fn:  x => x*0.5*(1+Math.tanh(Math.sqrt(2/Math.PI)*(x+0.044715*x*x*x))),
+      dfn: x => {
+        const t=Math.tanh(Math.sqrt(2/Math.PI)*(x+0.044715*x*x*x));
+        const sech2=1-t*t;
+        return 0.5*(1+t)+0.5*x*sech2*Math.sqrt(2/Math.PI)*(1+3*0.044715*x*x);
+      },
+      drange:'≈ (−0.1, 1.1)',
+      dNote:'Smooth, non-zero gradient everywhere. Slightly exceeds 1 near x≈0.75 — this helps learning in deep networks.',
+      pros:['Smooth gradient everywhere','Stronger signal than ReLU near 0'],
+      cons:['More expensive to compute'],
+      usedIn:'BERT, GPT, Transformers',
+      note:'Used in modern LLMs. Self-gated by input probability.'
+    },
+    {
+      id:'sigmoid', name:'Sigmoid', color:'#993C1D',
+      formula:'f(x) = 1 / (1 + e⁻ˣ)',
+      dformula:"f'(x) = f(x) · (1 − f(x))",
+      fn:  x => 1/(1+Math.exp(-x)),
+      dfn: x => { const s=1/(1+Math.exp(-x)); return s*(1-s); },
+      drange:'(0, 0.25]',
+      dNote:'Max gradient is 0.25 (at x=0). Saturates near 0 for large |x| — gradients vanish, making deep nets hard to train.',
+      pros:['Clean probabilistic formula'],
+      cons:['Vanishing gradient for large |x|','Max gradient only 0.25'],
+      usedIn:'Output layer (binary classification)',
+      note:'Rarely used in hidden layers due to vanishing gradients.'
+    },
+    {
+      id:'tanh', name:'Tanh', color:'#0F6E56',
+      formula:'f(x) = (eˣ − e⁻ˣ) / (eˣ + e⁻ˣ)',
+      dformula:"f'(x) = 1 − f(x)²\n       = sech²(x)",
+      fn:  x => Math.tanh(x),
+      dfn: x => { const t=Math.tanh(x); return 1-t*t; },
+      drange:'(0, 1]',
+      dNote:'Max gradient is 1 at x=0. Better than sigmoid (stronger gradient, zero-centered), but still vanishes for large |x|.',
+      pros:['Stronger gradient than sigmoid','Zero-centered output'],
+      cons:['Still vanishes for large |x|'],
+      usedIn:'RNNs, LSTMs',
+      note:'Preferred over sigmoid for hidden layers in recurrent nets.'
+    },
+    {
+      id:'leaky', name:'Leaky ReLU', color:'#854F0B',
+      formula:'f(x) = x if x>0, else 0.01x',
+      dformula:"f'(x) = 1    if x > 0\n         0.01 if x < 0",
+      fn:  x => x>0 ? x : 0.01*x,
+      dfn: x => x>0 ? 1 : 0.01,
+      drange:'0.01 or 1',
+      dNote:'Gradient is always non-zero (0.01 for x<0). Fixes the dying ReLU problem — neurons can recover during training.',
+      pros:['No dead neurons','Near-zero gradient for x<0'],
+      cons:['α=0.01 is a tunable hyperparameter'],
+      usedIn:'GANs, deep networks',
+      note:'PReLU learns α. ELU uses an exponential for smoother negative region.'
+    },
+    {
+      id:'swish', name:'Swish', color:'#D4537E',
+      formula:'f(x) = x · sigmoid(x)',
+      dformula:"f'(x) = f(x) + σ(x)·(1 − f(x))",
+      fn:  x => x*(1/(1+Math.exp(-x))),
+      dfn: x => {
+        const s=1/(1+Math.exp(-x));
+        const fx=x*s;
+        return fx+s*(1-fx);
+      },
+      drange:'≈ (−0.1, 1.1)',
+      dNote:'Similar shape to GELU derivative. Non-monotonic: slightly negative for x≈−1, enabling the model to suppress small negative signals selectively.',
+      pros:['Smooth non-monotonic gradient','Found by neural architecture search'],
+      cons:['Slightly heavier compute than ReLU'],
+      usedIn:'EfficientNet, MobileNet',
+      note:'Self-gated. Outperforms ReLU on many deep architectures.'
+    },
+  ];
+
+  let active='relu';
+  const X_MIN=-4, X_MAX=4, STEPS=400;
+
+  function isDark(){ return window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches; }
+  function getC(){
+    const d=isDark();
+    return {
+      grid: d?'rgba(255,255,255,0.07)':'rgba(0,0,0,0.06)',
+      axis: d?'rgba(255,255,255,0.2)':'rgba(0,0,0,0.18)',
+      text: d?'#9c9a92':'#73726c',
+      bg:   d?'#1e1e1c':'#ffffff',
+    };
+  }
+
+  function xs(){ return Array.from({length:STEPS},(_,i)=>X_MIN+(X_MAX-X_MIN)*i/(STEPS-1)); }
+
+  function drawCanvas(canvasId, evalFn, yMin, yMax, probeX, color, compareAll, dashed){
+    const canvas=document.getElementById(canvasId);
+    if (!canvas) return;
+    const dpr=window.devicePixelRatio||1;
+    const W=canvas.offsetWidth, H=canvas.offsetHeight||200;
+    canvas.width=W*dpr; canvas.height=H*dpr;
+    const ctx=canvas.getContext('2d');
+    ctx.scale(dpr,dpr);
+    const C=getC();
+    const PAD={l:38,r:16,t:12,b:28};
+    const cw=W-PAD.l-PAD.r, ch=H-PAD.t-PAD.b;
+
+    ctx.fillStyle=C.bg; ctx.fillRect(0,0,W,H);
+
+    function px(x){ return PAD.l+((x-X_MIN)/(X_MAX-X_MIN))*cw; }
+    function py(y){ return PAD.t+((yMax-y)/(yMax-yMin))*ch; }
+
+    // grid
+    ctx.strokeStyle=C.grid; ctx.lineWidth=0.5;
+    const yTicks=[yMin, 0, yMax].filter((v,i,a)=>a.indexOf(v)===i);
+    yTicks.forEach(y=>{ ctx.beginPath(); ctx.moveTo(PAD.l,py(y)); ctx.lineTo(PAD.l+cw,py(y)); ctx.stroke(); });
+    [-3,-2,-1,0,1,2,3].forEach(x=>{ ctx.beginPath(); ctx.moveTo(px(x),PAD.t); ctx.lineTo(px(x),PAD.t+ch); ctx.stroke(); });
+
+    // axes
+    ctx.strokeStyle=C.axis; ctx.lineWidth=1;
+    if(yMin<0&&yMax>0){ ctx.beginPath(); ctx.moveTo(PAD.l,py(0)); ctx.lineTo(PAD.l+cw,py(0)); ctx.stroke(); }
+    ctx.beginPath(); ctx.moveTo(px(0),PAD.t); ctx.lineTo(px(0),PAD.t+ch); ctx.stroke();
+
+    // tick labels
+    ctx.fillStyle=C.text; ctx.font='10px sans-serif';
+    ctx.textAlign='right';
+    yTicks.forEach(y=>ctx.fillText(y%1===0?y:y.toFixed(1), PAD.l-4, py(y)+3));
+    ctx.textAlign='center';
+    [-3,-1,0,1,3].forEach(x=>ctx.fillText(x, px(x), PAD.t+ch+14));
+
+    const toShow=compareAll?FNS:[FNS.find(f=>f.id===active)];
+
+    toShow.forEach(fn=>{
+      const isActive=fn.id===active;
+      ctx.beginPath();
+      ctx.strokeStyle=fn.color;
+      ctx.lineWidth=compareAll&&!isActive?1.2:2.2;
+      ctx.globalAlpha=compareAll&&!isActive?0.35:1;
+      if(dashed&&!isActive){ ctx.setLineDash([4,4]); } else { ctx.setLineDash([]); }
+      xs().forEach((x,i)=>{
+        let y=evalFn(fn,x);
+        y=Math.max(yMin-0.5,Math.min(yMax+0.5,y));
+        if(i===0) ctx.moveTo(px(x),py(Math.max(yMin,Math.min(yMax,y))));
+        else ctx.lineTo(px(x),py(Math.max(yMin,Math.min(yMax,y))));
+      });
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha=1;
+
+      if(compareAll){
+        const ex=X_MAX-0.1;
+        let ey=evalFn(fn,ex);
+        ey=Math.max(yMin,Math.min(yMax,ey));
+        ctx.fillStyle=fn.color; ctx.font='bold 10px sans-serif'; ctx.textAlign='left';
+        ctx.fillText(fn.name, Math.min(px(ex)+2, W-55), py(ey)+3);
+      }
+    });
+
+    // probe dot + crosshairs
+    if(probeX!==null){
+      const fn=FNS.find(f=>f.id===active);
+      let py_val=evalFn(fn,probeX);
+      py_val=Math.max(yMin,Math.min(yMax,py_val));
+      ctx.strokeStyle=fn.color; ctx.lineWidth=1; ctx.setLineDash([3,3]); ctx.globalAlpha=0.5;
+      ctx.beginPath(); ctx.moveTo(px(probeX),py(0)); ctx.lineTo(px(probeX),py(py_val)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(PAD.l,py(py_val)); ctx.lineTo(px(probeX),py(py_val)); ctx.stroke();
+      ctx.setLineDash([]); ctx.globalAlpha=1;
+      ctx.fillStyle=fn.color;
+      ctx.beginPath(); ctx.arc(px(probeX),py(py_val),4,0,Math.PI*2); ctx.fill();
+    }
+  }
+
+  function renderCharts(probeX){
+    const compareAll=document.getElementById('activation-compareAll')?.checked;
+    drawCanvas('activation-chartFn',  (fn,x)=>fn.fn(x),  -1.5, 1.5, probeX, null, compareAll, false);
+    drawCanvas('activation-chartDeriv',(fn,x)=>fn.dfn(x), -0.2, 1.2, probeX, null, compareAll, true);
+  }
+
+  function renderInfo(){
+    const fn=FNS.find(f=>f.id===active);
+    const slider = document.getElementById('activation-probeSlider');
+    const xv=parseFloat(slider?.value||0);
+    const fv=fn.fn(xv), dv=fn.dfn(xv);
+    const infoCard = document.getElementById('activation-infoCard');
+    if (!infoCard) return;
+    infoCard.innerHTML=`
+      <div class="fn-name" style="color:${fn.color}">${fn.name}</div>
+      <div class="prop-label" style="margin-bottom:4px">f(x)</div>
+      <div class="fn-formula">${fn.formula}</div>
+      <div class="prop-label" style="margin-bottom:4px">f′(x)</div>
+      <div class="fn-formula">${fn.dformula}</div>
+      <hr class="divider">
+      <div class="prop"><div class="prop-label">Derivative range</div><div class="prop-val">${fn.drange}</div></div>
+      <div class="prop"><div class="prop-label">Gradient insight</div><div class="prop-val" style="color:#666;font-size:11px;line-height:1.5">${fn.dNote}</div></div>
+      <div class="prop"><div class="prop-label">Pros</div><div class="prop-val">${fn.pros.map(p=>`<span class="badge green">${p}</span>`).join('')}</div></div>
+      <div class="prop"><div class="prop-label">Cons</div><div class="prop-val">${fn.cons.map(p=>`<span class="badge amber">${p}</span>`).join('')}</div></div>
+      <hr class="divider">
+      <div class="probe-row">
+        <span>Probe x:</span>
+        <input type="range" id="activation-probeSlider" min="-4" max="4" step="0.1" value="${xv}" oninput="activationOnProbe(this.value)">
+        <span id="activation-probeXLbl" style="min-width:28px">${xv.toFixed(1)}</span>
+      </div>
+      <div class="probe-vals">
+        <div class="probe-val">
+          <span>f(x)</span>
+          <span style="font-size:13px;font-weight:500;color:${fn.color}" id="activation-probeFval">${fv.toFixed(3)}</span>
+        </div>
+        <div class="probe-val">
+          <span>f′(x)</span>
+          <span style="font-size:13px;font-weight:500;color:${fn.color};opacity:.7" id="activation-probeDval">${dv.toFixed(3)}</span>
+        </div>
+      </div>`;
+  }
+
+  window.activationOnProbe = function(v){
+    const fn=FNS.find(f=>f.id===active);
+    const xv=parseFloat(v);
+    const lbl = document.getElementById('activation-probeXLbl');
+    const fval = document.getElementById('activation-probeFval');
+    const dval = document.getElementById('activation-probeDval');
+    if (lbl) lbl.textContent=xv.toFixed(1);
+    if (fval) fval.textContent=fn.fn(xv).toFixed(3);
+    if (dval) dval.textContent=fn.dfn(xv).toFixed(3);
+    renderCharts(xv);
+  };
+
+  window.activationRender = function(){
+    renderTabs();
+    renderInfo();
+    const slider = document.getElementById('activation-probeSlider');
+    const xv=parseFloat(slider?.value||0);
+    renderCharts(xv);
+  };
+
+  function renderTabs(){
+    const tabs = document.getElementById('activation-tabs');
+    if (!tabs) return;
+    tabs.innerHTML=FNS.map(f=>`
+      <button class="tab${f.id===active?' active':''}" onclick="activationSetActive('${f.id}')"
+        style="${f.id===active?`border-color:${f.color};background:${f.color}22;color:${f.color}`:''}">
+        ${f.name}
+      </button>`).join('');
+  }
+
+  window.activationSetActive = function(id){ active=id; activationRender(); };
+
+  activationRender();
+  window.addEventListener('resize', ()=>{
+    const slider = document.getElementById('activation-probeSlider');
+    const xv=parseFloat(slider?.value||0);
+    renderCharts(xv);
+  });
+})();
+</script>
