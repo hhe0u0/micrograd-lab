@@ -120,7 +120,21 @@ After completing these labs, you'll be ready to:
 
 ## 🙏 Acknowledgments
 
-Inspired by Andrej Karpathy's micrograd and educational philosophy of building from first principles.
+This lab series is inspired by **[Andrej Karpathy's micrograd](https://github.com/karpathy/micrograd)** and his educational philosophy of building from first principles.
+
+**Reference:**
+- Original Repository: [github.com/karpathy/micrograd](https://github.com/karpathy/micrograd)
+- Karpathy's YouTube Lecture: [The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0)
+- Educational Approach: Learn by implementing automatic differentiation from scratch
+
+This lab extends micrograd's concepts into a structured workshop format with:
+- Progressive 5-lab curriculum
+- Hands-on exercises with starter code
+- Validation tests for immediate feedback
+- Cultural examples and edge cases
+- Complete reference implementations
+
+**Micrograd License:** MIT License (Copyright (c) 2020 Andrej Karpathy)
 
 ## 📝 License
 

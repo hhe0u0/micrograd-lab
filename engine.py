@@ -1,6 +1,16 @@
 """
 Complete micrograd engine — reference implementation.
 Students build this incrementally across Labs 2, 3, and 4.
+
+Inspired by Andrej Karpathy's micrograd:
+https://github.com/karpathy/micrograd
+
+This implementation is adapted for educational purposes with:
+- Explicit variable names for learning
+- Extensive inline comments
+- Step-by-step construction across labs
+
+Original micrograd by Andrej Karpathy (MIT License, 2020)
 """
 import math
 

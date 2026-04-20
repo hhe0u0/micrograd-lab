@@ -1,6 +1,17 @@
 """
 Neural network layers built on top of the micrograd engine.
 Complete reference implementation — used in Lab 5.
+
+Inspired by Andrej Karpathy's micrograd:
+https://github.com/karpathy/micrograd
+
+Architecture follows micrograd's design:
+- Module base class with parameters() method
+- Neuron: single neuron with weights, bias, activation
+- Layer: collection of neurons
+- MLP: multi-layer perceptron
+
+Original micrograd by Andrej Karpathy (MIT License, 2020)
 """
 import random
 from engine import Value
