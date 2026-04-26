@@ -18,6 +18,17 @@ A hands-on Jupyter notebook series that teaches you how to build a neural networ
 
 Build your own automatic differentiation engine and neural network library, understanding the core principles behind modern deep learning frameworks like PyTorch and TensorFlow.
 
+### ✨ Recent Improvements
+
+**Enhanced Learning Experience:**
+- 🎯 **Clear Success Criteria:** Each exercise now has explicit goals and expected outcomes
+- 📊 **Expected Output Values:** See exact values you should get with reproducible results
+- 🔄 **Reproducibility:** All solution notebooks use random seed 42 for consistent results
+- 📈 **Weight Distribution Analysis:** Visualize and understand model weights after training
+- 🏃 **Runnable Starter Code:** Lab 5 includes complete skeleton with tqdm progress bars
+- 🎨 **Decision Boundary Visualization:** Lab 3 includes plot_decision_boundary function
+- 📚 **Official Source:** Downloads engine.py directly from Karpathy's micrograd repository
+
 ## 📚 Lab Structure
 
 ### Lab 1: Numeric Computation in Python
@@ -41,9 +52,8 @@ Build your own automatic differentiation engine and neural network library, unde
 **Given:** Complete Value class with autograd from micrograd  
 **Exercises:**
 - Exercise 1: Implement Neuron, Layer, MLP classes (especially `__call__` methods)
-- Exercise 2: Implement loss function with L2 regularization
-- Exercise 3: Implement training loop  
-**Dataset:** 2D moon classification (from Karpathy's demo.ipynb)  
+- Exercise 2: Implement loss function with L2 regularization (🎯 Goal: See initial loss ~1.0, accuracy ~50%)
+- Exercise 3: Implement training loop (🎯 Goal: Verify loss decreases to ~0.2, accuracy >90%)  
 **What You'll Learn:** How to build and train neural networks from scratch
 
 ### Lab 4: Deep Learning with PyTorch
@@ -52,8 +62,8 @@ Build your own automatic differentiation engine and neural network library, unde
 **Dataset:** MNIST handwritten digits (sklearn version)  
 **Exercises:**
 - Exercise 1: Build 2-layer MLP using PyTorch
-- Exercise 2: Implement training loop with Adam optimizer
-- Exercise 3: Implement validation loop  
+- Exercise 2: Implement training loop with Adam optimizer (🎯 Goal: Initial loss ~2.3, accuracy ~10%)
+- Exercise 3: Implement validation loop (🎯 Goal: Test accuracy >95%, within 5% of training)  
 **What You'll Learn:** How to use PyTorch for real-world deep learning tasks
 
 ### Lab 5: Transfer Learning - Cats vs Dogs
@@ -62,20 +72,11 @@ Build your own automatic differentiation engine and neural network library, unde
 **Dataset:** Kaggle Dogs vs Cats (25,000 images)  
 **Exercises:**
 - Exercise 1: Build model with pre-trained ResNet18 + custom head
-- Exercise 2: Implement training loop with BCEWithLogitsLoss
+- Exercise 2: Implement training loop with BCEWithLogitsLoss (runnable starter code with tqdm)
 - Exercise 3: Implement validation with precision/recall/F1
 - Exercise 4: Analyze predictions and confidence scores  
 **What You'll Learn:** How to leverage pre-trained models for new tasks with limited data
 
-### Lab 5.1: Training on TPU (Bonus)
-**Focus:** Using Google Cloud TPU for faster training  
-**Concepts:** TPU vs GPU, PyTorch XLA, large batch training  
-**Dataset:** Same Cats vs Dogs from Lab 5  
-**Exercises:**
-- Exercise 1: Adapt model for TPU
-- Exercise 2: Implement TPU training loop with XLA
-- Exercise 3: Validate on TPU  
-**What You'll Learn:** How to use TPU for production-scale training, when TPU beats GPU
 
 ## 🚀 Getting Started
 
@@ -87,8 +88,7 @@ Build your own automatic differentiation engine and neural network library, unde
 - 🔗 [**Lab 2: Computation Graphs**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab2_computation_graph.ipynb)
 - 🔗 [**Lab 3: Neural Networks**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab3_neural_networks.ipynb)
 - 🔗 [**Lab 4: PyTorch + MNIST**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab4_pytorch_mnist.ipynb)
-- 🔗 [**Lab 5: Transfer Learning**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb) ⚠️ *Requires Kaggle account*
-- 🔗 [**Lab 5.1: TPU Training (Bonus)**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5.1_tpu_training.ipynb) 🚀 *Requires Kaggle account + TPU runtime*
+- 🔗 [**Lab 5: Transfer Learning**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb)
 
 **What you get with Colab:**
 - ✅ All packages pre-installed (PyTorch, NumPy, matplotlib, graphviz)
@@ -140,8 +140,6 @@ micrograd-lab/
 ├── lab2_computation_graph.ipynb    # Lab 2: Value class + gradients
 ├── lab3_neural_networks.ipynb      # Lab 3: Build and train MLP
 ├── lab4_pytorch_mnist.ipynb        # Lab 4: PyTorch + MNIST
-├── engine.py                        # Complete Value class (reference)
-├── nn.py                            # Neural network layers (reference)
 └── utils.py                         # Helper functions (topological sort, visualization)
 ```
 
@@ -183,7 +181,7 @@ After completing these labs, you'll be ready to:
 
 ## 🙏 Acknowledgments
 
-This lab series is inspired by **[Andrej Karpathy's micrograd](https://github.com/karpathy/micrograd)** and his educational philosophy of building from first principles.
+This lab series is largely inspired by **[Andrej Karpathy's micrograd](https://github.com/karpathy/micrograd)** and his educational philosophy of building from first principles.
 
 **Reference:**
 - Original Repository: [github.com/karpathy/micrograd](https://github.com/karpathy/micrograd)
