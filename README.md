@@ -11,6 +11,8 @@ A hands-on Jupyter notebook series that teaches you how to build a neural networ
 3. [Lab 3: Neural Networks](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab3_neural_networks.ipynb) - Build MLP
 4. [Lab 4: PyTorch](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab4_pytorch_mnist.ipynb) - MNIST classifier
 5. [Lab 5: Transfer Learning](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb) - Cats vs Dogs (needs Kaggle account)
+6. [Lab 6: Makemore](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab6_makemore.ipynb) - Character-level language model
+7. [Lab 6: NanoGPT](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab6_nanogpt.ipynb) - Transformer text generator
 
 **No installation, no setup - just click and learn!** 🚀
 
@@ -77,6 +79,27 @@ Build your own automatic differentiation engine and neural network library, unde
 - Exercise 4: Analyze predictions and confidence scores  
 **What You'll Learn:** How to leverage pre-trained models for new tasks with limited data
 
+### Lab 6 Part 1: Makemore - Character-Level Language Model
+**Focus:** Build a character-level language model with MLP  
+**Concepts:** Tokenization, language modeling, bigram and MLP models, perplexity  
+**Dataset:** Tiny Shakespeare (~1MB text from Shakespeare's works)  
+**Exercises:**
+- Exercise 1: Implement character-level tokenizer (encode/decode)
+- Exercise 2: Implement MakemoreMLP (embedding + hidden layer)
+- Exercise 3: Implement training loop (🎯 Goal: Loss ~4.2→2.0, perplexity ~7.5)
+- Exercise 4: Save and load model checkpoints  
+**What You'll Learn:** Language model basics, embeddings, context windows, generation
+
+### Lab 6 Part 2: NanoGPT - Transformer Language Model
+**Focus:** Build a transformer-based text generator  
+**Concepts:** Attention mechanism, Query-Key-Value, multi-head attention, transformer architecture  
+**Dataset:** Tiny Shakespeare (same as Part 1)  
+**Exercises:**
+- Exercise 1: Implement NanoGPT model (4-layer transformer)
+- Exercise 2: Implement training loop (🎯 Goal: Loss ~4.2→1.6, perplexity ~5.0)
+- Exercise 3: Implement generation with temperature and top-k sampling  
+**What You'll Learn:** Attention mechanism, why transformers beat MLPs, how GPT works, sampling strategies
+
 
 ## 🚀 Getting Started
 
@@ -89,6 +112,8 @@ Build your own automatic differentiation engine and neural network library, unde
 - 🔗 [**Lab 3: Neural Networks**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab3_neural_networks.ipynb)
 - 🔗 [**Lab 4: PyTorch + MNIST**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab4_pytorch_mnist.ipynb)
 - 🔗 [**Lab 5: Transfer Learning**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab5_transfer_learning.ipynb)
+- 🔗 [**Lab 6 Part 1: Makemore**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab6_makemore.ipynb)
+- 🔗 [**Lab 6 Part 2: NanoGPT**](https://colab.research.google.com/github/hhe0u0/micrograd-lab/blob/claude/micrograd-lab-exercises-V14m2/lab6_nanogpt.ipynb)
 
 **What you get with Colab:**
 - ✅ All packages pre-installed (PyTorch, NumPy, matplotlib, graphviz)
@@ -140,6 +165,9 @@ micrograd-lab/
 ├── lab2_computation_graph.ipynb    # Lab 2: Value class + gradients
 ├── lab3_neural_networks.ipynb      # Lab 3: Build and train MLP
 ├── lab4_pytorch_mnist.ipynb        # Lab 4: PyTorch + MNIST
+├── lab5_transfer_learning.ipynb    # Lab 5: Transfer learning (Cats vs Dogs)
+├── lab6_makemore.ipynb             # Lab 6 Part 1: Makemore (character-level LM)
+├── lab6_nanogpt.ipynb              # Lab 6 Part 2: NanoGPT (transformer LM)
 └── utils.py                         # Helper functions (topological sort, visualization)
 ```
 
@@ -168,7 +196,9 @@ By the end of this course, you'll have:
 4. ✅ Trained model on 2D moon dataset (micrograd demo)
 5. ✅ PyTorch MLP trained on MNIST with >95% accuracy
 6. ✅ Transfer learning model on Kaggle Cats vs Dogs with >90% accuracy
-7. ✅ **Bonus:** Same model trained on Google Cloud TPU (Lab 5.1)
+7. ✅ Character-level language model (Makemore MLP, perplexity ~7.5)
+8. ✅ Transformer language model (NanoGPT, perplexity ~5.0)
+9. ✅ Understanding of attention mechanism and how GPT works
 
 ## 🎯 Next Steps
 
